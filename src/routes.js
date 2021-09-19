@@ -6,6 +6,7 @@ import Login from "./pages/auth/login/loginPage";
 import Register from "./pages/auth/register/registerPage";
 import Home from "./pages/home/homePage";
 import PrivatePage from "./pages/privatePage";
+import Logout from "./pages/auth/logout/logout";
 
 const Routes = () => {
   return (
@@ -15,6 +16,7 @@ const Routes = () => {
       <Route exact path="/login" component={Login} />
       <Route exact path="/register" component={Register} />
       <PrivateRoute path="/dashboard" component={PrivatePage} />
+      <Route exact path="/logout" component={Logout} />
     </Switch>
   );
 };

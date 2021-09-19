@@ -29,7 +29,6 @@ function LoginPage(props) {
   // console.log(watch("example"));
   const onSubmit = async (data) => {
     let res = await accountService.login(data.username, data.password);
-    console.log(res);
     if (res === true) {
       dispatch(setAuthenticated(true));
       props.history.push("/");
