@@ -12,21 +12,26 @@ function LoginPage(props) {
     formState: { errors },
   } = useForm();
   const authenticated = useSelector((state) => state.user.isAuthenticated);
-  if (authenticated) {
-    props.history.push("/");
-  }
-  // useEffect(() => {
-  //   // Your code here
-  //   if (authenticated) {
-  //     props.history.push("/");
-  //   }
-  // }, []);
+  // if (authenticated) {
+  //   props.history.push("/");
+  // }
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // Your code here
+
+    console.log("HIT");
+    console.log(authenticated);
+    if (authenticated) {
+      props.history.push("/");
+    }
+  }, []);
 
   // console.log(watch("example"));
   const onSubmit = async (data) => {
     let res = await accountService.login(data.username, data.password);
     console.log(res);
     if (res === true) {
+      dispatch(setAuthenticated(true));
       props.history.push("/");
     } else {
       console.log("incorrect username or password");

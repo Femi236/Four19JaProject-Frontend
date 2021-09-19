@@ -3,15 +3,20 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: {},
-    isAuthenticated: false,
+    user: localStorage.getItem("user") || {},
+    isAuthenticated: localStorage.getItem("isAuthenticated") || false,
   },
   reducers: {
     setAuthenticated: (state, action) => {
+      console.log("in slice");
+      console.log(action.payload);
       state.isAuthenticated = action.payload;
+      localStorage.setItem("isAuthenticated", state.isAuthenticated);
+      console.log(state.isAuthenticated);
     },
     setUser: (state, action) => {
       state.user += action.payload;
+      localStorage.setItem("user", state.user);
     },
   },
 });
