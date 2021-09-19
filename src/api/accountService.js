@@ -22,7 +22,7 @@ class AccountService {
     });
   }
 
-  register(username, firstName, lastName, password, email) {
+  register(username, firstName, lastName, email, password) {
     return axios({
       method: "post",
       url: `${process.env.REACT_APP_API_URL}user/register`,
