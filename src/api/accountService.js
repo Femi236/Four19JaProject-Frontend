@@ -13,13 +13,19 @@ class AccountService {
         username: username,
         password: password,
       },
-    }).then((response) => {
-      console.log(response);
-      let access_token = response.data.access_token;
-      let refresh_token = response.data.refresh_token;
-      localStorage.setItem("access_token", access_token);
-      localStorage.setItem("refresh_token", refresh_token);
-    });
+    })
+      .then((response) => {
+        console.log(response);
+        let access_token = response.data.access_token;
+        let refresh_token = response.data.refresh_token;
+        localStorage.setItem("access_token", access_token);
+        localStorage.setItem("refresh_token", refresh_token);
+        return true;
+      })
+      .catch((error) => {
+        console.log(error);
+        return false;
+      });
   }
 
   register(username, firstName, lastName, email, password) {
