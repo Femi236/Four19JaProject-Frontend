@@ -1,6 +1,6 @@
 import React, { Component, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setAuthenticated, setUser } from "../../../userSlice";
+import { authenticate, unauthenticate, setUser } from "../../../userSlice";
 import { useForm } from "react-hook-form";
 import accountService from "../../../api/accountService";
 
@@ -12,16 +12,9 @@ function LoginPage(props) {
     formState: { errors },
   } = useForm();
   const authenticated = useSelector((state) => state.user.isAuthenticated);
-  // if (authenticated) {
-  //   props.history.push("/");
-  // }
   const dispatch = useDispatch();
   useEffect(() => {
-    // Your code here
-
-    console.log("HIT");
-    console.log(authenticated);
-    if (authenticated) {
+    if (JSON.parse(authenticated) === true) {
       props.history.push("/");
     }
   }, []);
@@ -30,7 +23,7 @@ function LoginPage(props) {
   const onSubmit = async (data) => {
     let res = await accountService.login(data.username, data.password);
     if (res === true) {
-      dispatch(setAuthenticated(true));
+      dispatch(authenticate());
       props.history.push("/");
     } else {
       console.log("incorrect username or password");

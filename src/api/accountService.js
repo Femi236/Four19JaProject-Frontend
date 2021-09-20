@@ -39,9 +39,20 @@ class AccountService {
         password: password,
         email: email,
       },
-    }).then((response) => {
-      console.log(response);
-    });
+    })
+      .then((response) => {
+        console.log(response);
+        return {
+          username: username,
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+        };
+      })
+      .catch((error) => {
+        console.log(error);
+        return null;
+      });
   }
 
   getAllUsers() {

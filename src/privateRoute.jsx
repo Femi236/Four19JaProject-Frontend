@@ -6,25 +6,28 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setAuthenticated, setUser } from "./userSlice";
+import { authenticate, unauthenticate, setUser } from "./userSlice";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   // Add your own authentication on the below line.
   const isLoggedIn = useSelector((state) => state.user.isAuthenticated); //AuthService.isLoggedIn();
 
   return (
-    <Route
-      {...rest}
-      render={(props) =>
-        isLoggedIn ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{ pathname: "/login", state: { from: props.location } }}
-          />
-        )
-      }
-    />
+    <React.Fragment>
+      {console.log("logged in: ", isLoggedIn)}
+      <Route
+        {...rest}
+        render={(props) =>
+          isLoggedIn === true ? (
+            <Component {...props} />
+          ) : (
+            <Redirect
+              to={{ pathname: "/login", state: { from: props.location } }}
+            />
+          )
+        }
+      />
+    </React.Fragment>
   );
 };
 
