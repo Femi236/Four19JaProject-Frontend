@@ -19,12 +19,22 @@ function LoginPage(props) {
     }
   }, []);
 
+  const location = props.location;
+  console.log("location: ", location);
   // console.log(watch("example"));
   const onSubmit = async (data) => {
     let res = await accountService.login(data.username, data.password);
     if (res === true) {
       dispatch(authenticate());
-      props.history.push("/");
+      if (
+        location.state &&
+        location.state.from &&
+        location.state.from.pathname
+      ) {
+        props.history.push(location.state.from.pathname);
+      } else {
+        props.history.push("/");
+      }
     } else {
       console.log("incorrect username or password");
     }

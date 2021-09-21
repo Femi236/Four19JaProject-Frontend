@@ -18,7 +18,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       <Route
         {...rest}
         render={(props) =>
-          isLoggedIn === true ? (
+          JSON.parse(isLoggedIn) === true ? (
             <Component {...props} />
           ) : (
             <Redirect
