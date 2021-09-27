@@ -7,7 +7,6 @@ export const userSlice = createSlice({
   },
   reducers: {
     authenticate: (state) => {
-      console.log("HIT AUTHENTICATE");
       state.isAuthenticated = true;
       localStorage.setItem("isAuthenticated", true);
     },

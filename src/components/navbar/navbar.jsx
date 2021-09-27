@@ -1,7 +1,5 @@
 import React, { Component, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { authenticate, unauthenticate } from "../../app/userSlice";
 
 function Navbar(props) {
   return (

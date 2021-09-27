@@ -21,8 +21,6 @@ function LoginPage(props) {
   }, []);
 
   const location = props.location;
-  console.log("location: ", location);
-  // console.log(watch("example"));
   const onSubmit = async (data) => {
     let res = await accountService.login(data.username, data.password);
     if (res === true) {

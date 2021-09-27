@@ -16,13 +16,8 @@ function LoginPage(props) {
   } = useForm();
 
   const authenticated = useSelector((state) => state.user.isAuthenticated);
-  console.log(authenticated);
-  console.log("TESTING AREA:");
-  console.log(localStorage.getItem("sbjkbhslj") || "hi");
   useEffect(() => {
-    console.log("HIT REG", typeof authenticated);
     if (JSON.parse(authenticated) === true) {
-      console.log("redirect");
       props.history.push("/");
     }
   }, []);

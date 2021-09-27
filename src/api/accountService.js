@@ -15,7 +15,6 @@ class AccountService {
       },
     })
       .then((response) => {
-        console.log(response);
         let access_token = response.data.access_token;
         let refresh_token = response.data.refresh_token;
         localStorage.setItem("access_token", access_token);
@@ -23,7 +22,6 @@ class AccountService {
         return true;
       })
       .catch((error) => {
-        console.log(error);
         return false;
       });
   }
@@ -41,7 +39,6 @@ class AccountService {
       },
     })
       .then((response) => {
-        console.log(response);
         return {
           username: username,
           firstName: firstName,
@@ -50,7 +47,6 @@ class AccountService {
         };
       })
       .catch((error) => {
-        console.log(error);
         return null;
       });
   }
@@ -60,9 +56,7 @@ class AccountService {
       method: "get",
       url: `${process.env.REACT_APP_API_URL}user/all`,
       headers: headers,
-    }).then(function (response) {
-      console.log(response.data);
-    });
+    }).then(function (response) {});
   }
 }
 

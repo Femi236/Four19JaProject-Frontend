@@ -5,8 +5,7 @@
 // If not: they are redirected to the login page.
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { authenticate, unauthenticate } from "../app/userSlice";
+import { useSelector } from "react-redux";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   // Add your own authentication on the below line.
@@ -14,7 +13,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 
   return (
     <React.Fragment>
-      {console.log("logged in: ", isLoggedIn)}
       <Route
         {...rest}
         render={(props) =>

@@ -13,7 +13,6 @@ function Logout(props) {
 
   props.history.push("/login");
 
-  console.log("logout");
   return <div></div>;
 }
 
