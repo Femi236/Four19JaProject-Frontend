@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { authenticate, unauthenticate, setUser } from "../../../userSlice";
+import { authenticate, unauthenticate } from "../../../app/userSlice";
 
 function Logout(props) {
   localStorage.removeItem("access_token");
@@ -10,7 +10,6 @@ function Logout(props) {
 
   const dispatch = useDispatch();
   dispatch(unauthenticate());
-  dispatch(setUser({}));
 
   props.history.push("/login");
 

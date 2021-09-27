@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import accountService from "../../../api/accountService";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-import { authenticate, unauthenticate, setUser } from "../../../userSlice";
+import { authenticate, unauthenticate } from "../../../app/userSlice";
+import { Link } from "react-router-dom";
 
 function LoginPage(props) {
   const dispatch = useDispatch();
@@ -27,17 +28,16 @@ function LoginPage(props) {
   }, []);
 
   const onSubmit = async (data) => {
-    let res = await accountService.register(
+    let register = await accountService.register(
       data.username,
       data.firstName,
       data.lastName,
       data.email,
       data.password
     );
-    if (res !== null) {
+    if (register !== null) {
       let login = await accountService.login(data.username, data.password);
       if (login === true) {
-        dispatch(setUser(res));
         dispatch(authenticate());
         props.history.push("/");
       }
@@ -48,7 +48,7 @@ function LoginPage(props) {
 
   return (
     <React.Fragment>
-      <div className="row">
+      <div className="row mt-5">
         <div className="col"></div>
         <div className="col">
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -149,6 +149,9 @@ function LoginPage(props) {
             <button type="submit" className="btn btn-primary">
               Submit
             </button>
+            <div className="">
+              Already have an account? <Link to="/login">Log in</Link>
+            </div>
           </form>
         </div>
         <div className="col"></div>
