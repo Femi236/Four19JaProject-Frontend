@@ -1,31 +1,19 @@
 import axios from "axios";
 
-axios.interceptors.response.use(null, (error) => {
-  console.log("in intercepted error");
-  if (error.config && error.response && error.response.status === 401) {
-    if (
-      error.response.headers.error &&
-      error.response.headers.error.startsWith("JWT expired")
-    ) {
-      let ac = new AccountService();
-      return ac.updateToken().then((token) => {
-        error.config.headers["Authorization"] = "Bearer " + token; //localStorage.getItem("access_token");
-        error.config.headers["Content-Type"] = "application/json";
-        return axios.request(error.config);
-      });
-    } else {
-      window.location.href = "/logout";
-    }
-  }
-
-  return Promise.reject(error);
-});
-
+/**
+ * Header containing jwt token
+ */
 const headers = {
   Authorization: "Bearer " + localStorage.getItem("access_token"),
 };
 
 class AccountService {
+  /**
+   * Function to login user and get tokens
+   * @param {String} username
+   * @param {String} password
+   * @returns true or false based on response
+   */
   login(username, password) {
     return axios({
       method: "post",
@@ -47,6 +35,15 @@ class AccountService {
       });
   }
 
+  /**
+   * Function to register a user and then login
+   * @param {String} username
+   * @param {String} firstName
+   * @param {String} lastName
+   * @param {String} email
+   * @param {String} password
+   * @returns true or false based on response
+   */
   register(username, firstName, lastName, email, password) {
     return axios({
       method: "post",
@@ -60,18 +57,17 @@ class AccountService {
       },
     })
       .then((response) => {
-        return {
-          username: username,
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-        };
+        return true;
       })
       .catch((error) => {
-        return null;
+        return false;
       });
   }
 
+  /**
+   * Function to update acess and refresh tokens with refresh tokens
+   * @returns void
+   */
   updateToken() {
     return axios({
       methos: "post",
@@ -81,21 +77,18 @@ class AccountService {
       },
     })
       .then((response) => {
-        console.log("in update token");
         if (response.headers.access_token && response.headers.refresh_token) {
-          console.log("got new tokens");
           localStorage.setItem("access_token", response.headers.access_token);
           localStorage.setItem("refresh_token", response.headers.refresh_token);
           return response.headers.access_token;
         }
-        console.log("out");
-        // return true
       })
       .catch((error) => {
-        console.log("nahhhh");
+        return null;
       });
   }
 
+  // #TODO: DELETE
   getAllUsers() {
     return axios({
       method: "get",
@@ -104,7 +97,6 @@ class AccountService {
     })
       .then(function (response) {
         console.log("users response: ", response);
-        // console.log(response);
       })
       .catch((error) => {
         console.log("normal error");

@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+/**
+ * Storing application variables related to users
+ */
 export const userSlice = createSlice({
   name: "user",
   initialState: {

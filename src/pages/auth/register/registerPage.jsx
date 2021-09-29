@@ -5,23 +5,31 @@ import { useSelector, useDispatch } from "react-redux";
 import { authenticate, unauthenticate } from "../../../app/userSlice";
 import { Link } from "react-router-dom";
 
+/**
+ * Component for the registration page
+ */
 function LoginPage(props) {
   const dispatch = useDispatch();
-
+  // Formik variables
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
-
+  // Check if user is logged in or not
   const authenticated = useSelector((state) => state.user.isAuthenticated);
+  // If user is logged in already, redirect to home page
   useEffect(() => {
     if (JSON.parse(authenticated) === true) {
       props.history.push("/");
     }
   }, []);
 
+  /**
+   * Function to send form data to the API
+   * @param {*} data
+   */
   const onSubmit = async (data) => {
     let register = await accountService.register(
       data.username,
@@ -30,7 +38,7 @@ function LoginPage(props) {
       data.email,
       data.password
     );
-    if (register !== null) {
+    if (register === true) {
       let login = await accountService.login(data.username, data.password);
       if (login === true) {
         dispatch(authenticate());

@@ -8,7 +8,7 @@ import { Redirect, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  // Add your own authentication on the below line.
+  // Check if the user is logged in
   const isLoggedIn = useSelector((state) => state.user.isAuthenticated); //AuthService.isLoggedIn();
 
   return (

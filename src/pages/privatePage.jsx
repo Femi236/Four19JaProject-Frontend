@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import accountService from "../api/accountService";
 
+/**
+ * Random private component
+ */
 class PrivatePage extends React.Component {
   checkLogin = () => {
     accountService.getAllUsers();
