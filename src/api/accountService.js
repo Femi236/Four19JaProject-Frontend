@@ -1,5 +1,26 @@
 import axios from "axios";
 
+axios.interceptors.response.use(null, (error) => {
+  console.log("in intercepted error");
+  if (error.config && error.response && error.response.status === 401) {
+    if (
+      error.response.headers.error &&
+      error.response.headers.error.startsWith("JWT expired")
+    ) {
+      let ac = new AccountService();
+      return ac.updateToken().then((token) => {
+        error.config.headers["Authorization"] = "Bearer " + token; //localStorage.getItem("access_token");
+        error.config.headers["Content-Type"] = "application/json";
+        return axios.request(error.config);
+      });
+    } else {
+      window.location.href = "/logout";
+    }
+  }
+
+  return Promise.reject(error);
+});
+
 const headers = {
   Authorization: "Bearer " + localStorage.getItem("access_token"),
 };
@@ -51,12 +72,43 @@ class AccountService {
       });
   }
 
+  updateToken() {
+    return axios({
+      methos: "post",
+      url: `${process.env.REACT_APP_API_URL}security/token/refresh`,
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("refresh_token"),
+      },
+    })
+      .then((response) => {
+        console.log("in update token");
+        if (response.headers.access_token && response.headers.refresh_token) {
+          console.log("got new tokens");
+          localStorage.setItem("access_token", response.headers.access_token);
+          localStorage.setItem("refresh_token", response.headers.refresh_token);
+          return response.headers.access_token;
+        }
+        console.log("out");
+        // return true
+      })
+      .catch((error) => {
+        console.log("nahhhh");
+      });
+  }
+
   getAllUsers() {
     return axios({
       method: "get",
       url: `${process.env.REACT_APP_API_URL}user/all`,
       headers: headers,
-    }).then(function (response) {});
+    })
+      .then(function (response) {
+        console.log("users response: ", response);
+        // console.log(response);
+      })
+      .catch((error) => {
+        console.log("normal error");
+      });
   }
 }
 
